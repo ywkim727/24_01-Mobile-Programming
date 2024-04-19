@@ -14,31 +14,24 @@ class MyApp extends StatelessWidget {
           title: const Text('Hello, Flutter!'),
           backgroundColor: Colors.redAccent,
         ),
-        body: const Center(
-            child: Text.rich(
-              TextSpan(
-                style: TextStyle(
-                  fontSize: 20
-                ),
-                children: [
-                  TextSpan(
-                    text: 'Lorem Ipsum is ',
-                  ),
-                  TextSpan(
-                    text: 'simply',
-                    style: TextStyle(
-                      color: Colors.redAccent,
-                      fontWeight: FontWeight.bold
-                    ),
-                  ),
-                  TextSpan(
-                    text: ' dummy text',
-                  ),
-                ]
-              )
-            )
-          )
-        ),
-      );
+        body: Container(
+          width: 100,
+          height: 100,
+          padding: EdgeInsets.all(10),
+          margin: EdgeInsets.all(150),
+          decoration: BoxDecoration(
+            color: Colors.blue,
+            border: Border.all(
+              color: Color.fromARGB(255, 0, 0, 0),
+              width: 2,
+            ),
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: Container(
+            color: Colors.green,
+          ),
+        )
+      ),
+    );
   }
 }
