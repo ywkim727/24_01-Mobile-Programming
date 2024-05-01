@@ -10,32 +10,81 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        appBar: AppBar(
-          title: const Text('Hello, Flutter!'),
-          backgroundColor: Colors.redAccent,
-        ),
-        body: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
+        body: Column(
           children: [
+             //status bar
+            const SizedBox(
+              height: 44,
+            ),
+            //top
             Container(
-              width: 50,
+              padding: EdgeInsets.fromLTRB(10, 6, 15, 0),
               height: 50,
-              color: Colors.red,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [Image.asset("assets/Instagram_logo.png"),
+                Row(
+                  children: [
+                    Image.asset(
+                      "assets/Add.png",
+                      width: 26,
+                      height: 26,
+                    ),
+                    const SizedBox(
+                      width: 18,
+                    ),
+                    Image.asset(
+                      "assets/Heart.png",
+                      width: 26,
+                      height: 26,
+                    ),
+                    const SizedBox(
+                      width: 18,
+                    ),
+                    Image.asset(
+                      "assets/Share.png",
+                      width: 26,
+                      height: 26,
+                    ),
+                  ],
+                ),
+              ],
+                
+              ),
             ),
-            Container(
-              width: 50,
-              height: 100,
-              color: Colors.green,
+            Expanded( //body
+              child: Row()
             ),
-            Container(
-              width: 50,
+            Container(  //bottom
+              padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 12),
               height: 50,
-              color: Colors.blue,
-            ),
-          ],
+              decoration: BoxDecoration(
+                border: Border(
+                  top: BorderSide(
+                    color: Colors.grey.shade300,
+                    width: 0.5,
+                  )
+                )
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Image.asset('assets/Home.png'),
+                  Image.asset('assets/Search.png'),
+                  Image.asset('assets/Reels.png'),
+                  Image.asset('assets/Shop.png'),
+                  Image.asset('assets/Profile_picture_01.png'),
+                ],
+              ),
+            )
+
+          ]
+         
+        )
+           
+          
         ),
-      )
-    );
+      );
   }
 }
