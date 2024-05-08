@@ -1,4 +1,8 @@
+import 'dart:ui';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/painting.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 
@@ -55,6 +59,8 @@ class MyApp extends StatelessWidget {
               ),
             ),
             Expanded( //body
+            child: SingleChildScrollView(
+              scrollDirection: Axis.vertical,
               child: Column(
                 children: [
                   //user list
@@ -130,6 +136,114 @@ class MyApp extends StatelessWidget {
                           ),
                         ],
                       ),
+                    ),
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 12,
+                        vertical: 8,
+                      ),
+                      height: 42,
+                      child: Row(
+                        children: [
+                          Image.asset('assets/Heart.png'),
+                          const SizedBox(
+                            width: 12,
+                          ),
+                          Image.asset('assets/Comment.png'),
+                          const SizedBox(
+                            width: 12,
+                          ),
+                          Image.asset('assets/Share.png'),
+                          const Spacer(),
+                          Image.asset('assets/Bookmark.png'),
+                        ],
+                      ),
+                    ),
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 15,
+                      ),
+                      child: const Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text.rich(
+                            TextSpan(
+                              style: TextStyle(
+                                fontSize: 12,
+                              ),
+                              children: [
+                                TextSpan(
+                                  text: 'awsome_application',
+                                  style : TextStyle(
+                                    fontWeight: FontWeight.w600,
+                                  )
+                                ),
+                                TextSpan(
+                                  text: '님 외 ',
+                                ),
+                                TextSpan(
+                                  text: '10명',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w600,
+                                  )
+                                ),
+                                TextSpan(
+                                  text: '이 좋아합니다.'
+                                )
+                              ]
+                            ),
+                          ),
+                          SizedBox(
+                            height: 8,
+                          ),
+                          Text.rich(
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                            TextSpan(
+                              style: TextStyle(
+                                fontSize: 12,
+                              ),
+                              children: [
+                                TextSpan(
+                                  text: 'flutter_framework',
+                                  style : TextStyle(
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                                TextSpan(
+                                  text: ' ',
+                                ),
+                                TextSpan(
+                                  text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
+                                )
+                              ]
+                            )
+                          ),
+                          SizedBox(
+                            height: 5,
+                          ),
+                          Text(
+                            '댓글 102개 모두 보기',
+                            style: TextStyle(
+                              fontSize: 12,
+                              color: Colors.black54,
+                            ),
+                          ),
+                          SizedBox(
+                            height: 5,
+                          ),
+                          Text(
+                            '1일 전',
+                            style: TextStyle(
+                              fontSize: 10,
+                              color: Colors.black54,
+                            ),
+                          ),
+                          SizedBox(
+                            height: 16,
+                          ),                        
+                        ],
+                      ),
                     )
                     ],
                     //Feed pictures
@@ -137,6 +251,7 @@ class MyApp extends StatelessWidget {
                   )
                 ],
               )
+            ),
             ),
             Container(  //bottom
               padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 12),
