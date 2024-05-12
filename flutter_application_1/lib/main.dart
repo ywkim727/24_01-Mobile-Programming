@@ -92,73 +92,23 @@ class MyApp extends StatelessWidget {
                   ),
                   //feeds
                   Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       //userinfo
-                      Container(
-                        padding: EdgeInsets.all(10),
-                        height: 52,
-                        child: Row(
-                          children: [
-                            Image.asset('assets/Profile_picture_02.png'),
-                            const SizedBox(
-                              width: 10,
-                            ),
-                            const Text(
-                              'flutter_framework',
-                              style: TextStyle(
-                                fontSize: 12,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            const Spacer(),
-                            const Icon(
-                              Icons.more_horiz,
-                              size: 18,
-                            )
-                          ],
-                        ),
+                      UserInfo(
+                        userName: 'flutter_framework!',
+                        userPicture: 'assets/Profile_picture_02.png',
                       ),
-                      SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Row(
-                        children: [
-                          Image.asset(
+                      //pictures
+                      Pictures(
+                        pictureList: [
                             'assets/Feed_picture_01.png',
-                            width: MediaQuery.of(context).size.width,
-                          ),
-                          Image.asset(
                             'assets/Feed_picture_02.png',
-                            width: MediaQuery.of(context).size.width,
-                          ),
-                          Image.asset(
                             'assets/Feed_picture_03.png',
-                            width: MediaQuery.of(context).size.width,
-                          ),
+                            'assets/Feed_picture_04.png',
                         ],
                       ),
-                    ),
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 12,
-                        vertical: 8,
-                      ),
-                      height: 42,
-                      child: Row(
-                        children: [
-                          Image.asset('assets/Heart.png'),
-                          const SizedBox(
-                            width: 12,
-                          ),
-                          Image.asset('assets/Comment.png'),
-                          const SizedBox(
-                            width: 12,
-                          ),
-                          Image.asset('assets/Share.png'),
-                          const Spacer(),
-                          Image.asset('assets/Bookmark.png'),
-                        ],
-                      ),
-                    ),
+                    ActionIcons(),
                     Container(
                       padding: const EdgeInsets.symmetric(
                         horizontal: 15,
@@ -286,6 +236,96 @@ class MyApp extends StatelessWidget {
   }
 }
 
+class UserInfo extends StatelessWidget {
+  final String userName, userPicture;
+  const UserInfo({
+    super.key,
+    required this.userName,
+    required this.userPicture,
+  });
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(10),
+      height: 52,
+      child: Row(
+        children: [
+          Image.asset(
+            userPicture,
+          ),
+          const SizedBox(
+            width: 10,
+          ),
+          Text(
+            userName,
+            style: const TextStyle(
+              fontSize: 12,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          const Spacer(),
+          const Icon(
+            Icons.more_horiz,
+            size: 18,
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class ActionIcons extends StatelessWidget {
+  const ActionIcons({
+    super.key,
+  });
+  @override 
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(
+        horizontal: 12,
+        vertical: 8,
+      ),
+      height: 42,
+      child: Row(
+        children: [
+          Image.asset('assets/Heart.png'),
+          const SizedBox(
+            width: 12,
+          ),
+          Image.asset('assets/Comment.png'),
+          const SizedBox(
+            width: 12,
+          ),
+          Image.asset('assets/Share.png'),
+          const Spacer(),
+          Image.asset('assets/Bookmark.png'),
+        ],
+      ),
+    );
+  }
+}
+
+class Pictures extends StatelessWidget{
+  final List<String> pictureList;
+  const Pictures({
+    super.key,
+    required this.pictureList,
+  }); 
+  @override 
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Row(
+        children: pictureList.map(
+          (picture) => Image.asset(
+            picture,width: MediaQuery.of(context).size.width,
+          ),
+        ).toList(),
+      ),
+    );
+  }
+}
+
 class User extends StatelessWidget {
   final String userName;
   final String profilePicture;
@@ -298,6 +338,30 @@ class User extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    Widget addBadge = Positioned(
+      right: 2,
+      bottom: 2,
+      child: Container(
+        width: 21,
+        height: 21,
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          color: Colors.blue,
+          border: Border.all(
+            color: Colors.white,
+            width: 2,
+            strokeAlign: BorderSide.strokeAlignCenter,
+          )
+        ),
+        child: Icon(
+          Icons.add_rounded,
+          color: Colors.white,
+          size: 13,
+          weight: 100,
+        ),
+      ),
+    );
     return Padding(
       padding: const EdgeInsets.symmetric(
                           horizontal: 6
