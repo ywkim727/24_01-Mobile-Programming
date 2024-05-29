@@ -17,6 +17,7 @@ class MyApp extends StatelessWidget {
       const SystemUiOverlayStyle(
         statusBarColor: Colors.transparent,
         systemNavigationBarColor: TodoColors.background,
+        statusBarIconBrightness: Brightness.dark,
       )
     );
     return MaterialApp(
@@ -24,7 +25,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         fontFamily: 'Pretendard',
       ),
-      home: const HomeScreen(),
+      home: HomeScreen(),
     );
   }
 }
