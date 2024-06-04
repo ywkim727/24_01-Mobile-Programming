@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
 import 'package:simple_todo_list/components/todo_item.dart';
 import 'package:simple_todo_list/constants/todo_colors.dart';
 import 'package:simple_todo_list/models/todo_model.dart';
@@ -40,25 +41,36 @@ class HomeScreen extends StatelessWidget {
           children: [
             const _TodoSearchBox(),
             Expanded(
-              child: Column(
-                children: [
-                  Container(
-                    alignment: Alignment.centerLeft,
-                    margin: EdgeInsets.only(
-                      top: 10,
-                      bottom: 20,
-                    ),
-                    child: Text(
-                      '모든 할 일',
-                      style: TextStyle(
-                        fontSize: 30,
-                        fontWeight: FontWeight.w500,
+              child: ListView.separated(
+                itemCount: todoList.length + 1, 
+                itemBuilder: (context, index) {
+                  if (index == 0) {
+                    return Container(
+                      margin: const EdgeInsets.only(
+                        top: 10,
+                        bottom: 20,
                       ),
-                    ),
-                  ),        
-                  for (var todoItem in todoList)
-                    TodoItem(todo: todoItem),         
-                ],
+                      child: const Text(
+                        '모든 할 일',
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    );
+                  }
+                  return TodoItem(
+                    todo: todoList[index - 1] // index 0은 모든 할 일 텍스트이므로 -1
+                  );
+                },
+                separatorBuilder: (context, index) {  //아이템 사이 간격 추가
+                  if (index == 0) {
+                    return const SizedBox.shrink();
+                  }
+                  return const SizedBox(
+                    height: 5,
+                  );
+                },
               ),
             ),
             const _TodoAddBox(),
