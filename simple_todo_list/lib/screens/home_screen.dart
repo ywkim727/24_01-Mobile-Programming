@@ -5,10 +5,33 @@ import 'package:simple_todo_list/components/todo_item.dart';
 import 'package:simple_todo_list/constants/todo_colors.dart';
 import 'package:simple_todo_list/models/todo_model.dart';
 
-class HomeScreen extends StatelessWidget {
-  List<Todo> todoList = Todo.createDummyTodoList();
+class HomeScreen extends StatefulWidget {
 
   HomeScreen({super.key});
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  List<Todo> todoList = Todo.createDummyTodoList();
+
+  void _handleCheckTodoItem(Todo todo) {
+    setState(() {
+      todo.isDone = !todo.isDone;
+    });
+  }
+
+  void _deleteTodoItem(String id) {
+    setState(() {
+      for (var todoItem in todoList) {
+        if (todoItem.id == id) {
+          todoList.remove(todoItem);
+          return;
+        }
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -60,7 +83,9 @@ class HomeScreen extends StatelessWidget {
                     );
                   }
                   return TodoItem(
-                    todo: todoList[index - 1] // index 0은 모든 할 일 텍스트이므로 -1
+                    todo: todoList[index - 1], // index 0은 모든 할 일 텍스트이므로 -1
+                    onCheckedTodo: _handleCheckTodoItem,
+                    onDeleteTodo: _deleteTodoItem,
                   );
                 },
                 separatorBuilder: (context, index) {  //아이템 사이 간격 추가

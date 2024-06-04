@@ -4,10 +4,14 @@ import 'package:simple_todo_list/models/todo_model.dart';
 
 class TodoItem extends StatelessWidget {
   final Todo todo;
+  final Function(Todo) onCheckedTodo;
+  final Function(String) onDeleteTodo;
 
   const TodoItem({
     super.key,
     required this.todo,
+    required this.onCheckedTodo,
+    required this.onDeleteTodo,
   });
 
   @override
@@ -38,8 +42,9 @@ class TodoItem extends StatelessWidget {
             ),
             color: TodoColors.point,
             iconSize: 28,
-            onPressed: () => {
-              print('체크박스 클릭됨'),
+            onPressed: () {
+              print('체크박스 클릭됨');
+              onCheckedTodo(todo);
             },
           ),
           Expanded(
@@ -51,10 +56,11 @@ class TodoItem extends StatelessWidget {
               child : Text(
                 todo.todoContent,
                 overflow: TextOverflow.ellipsis,
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 16,
                   color: TodoColors.black,
                   fontWeight: FontWeight.w500,
+                  decoration: todo.isDone ? TextDecoration.lineThrough : null,  //체크박스 클릭시 글자에 줄 긋기
                 ),
               ),
             ),
@@ -65,8 +71,9 @@ class TodoItem extends StatelessWidget {
               color:  TodoColors.point,
             ),
             child: IconButton(
-              onPressed: () => {
-                print('더보기 클릭됨'),
+              onPressed: () {
+                print('더보기 클릭됨');
+                onDeleteTodo(todo.id);
               },
               icon: const Icon(
                 Icons.delete,
