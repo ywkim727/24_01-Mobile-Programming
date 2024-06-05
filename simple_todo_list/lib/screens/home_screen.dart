@@ -19,6 +19,15 @@ class _HomeScreenState extends State<HomeScreen> {
   List<Todo> todoList = Todo.createDummyTodoList();
 
   final _todoAddBoxController = TextEditingController();
+  final _todoSearchBoxController = TextEditingController();
+
+  List<Todo> _searchedTodoItems = [];
+
+  @override
+  void initState() {  
+    super.initState();
+    _searchedTodoItems = todoList;
+  }
 
   void _handleCheckTodoItem(Todo todo) {
     setState(() {
@@ -53,6 +62,22 @@ class _HomeScreenState extends State<HomeScreen> {
     _todoAddBoxController.clear();  // 입력 후 텍스트 필드 초기화
   }
 
+  void _filtrateTodoList(String keyword) {
+    List<Todo> results = [];
+    if(keyword.isEmpty) {
+      results = todoList;
+    } else {
+      for (var todoItem in todoList) {
+        if (todoItem.todoContent.toLowerCase().contains(keyword.toLowerCase())) {
+          results.add(todoItem);
+        }
+      }
+    }
+    setState(() {
+      _searchedTodoItems = results;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -82,10 +107,13 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         child: Column(
           children: [
-            const _TodoSearchBox(),
+            _TodoSearchBox(
+              controller: _todoSearchBoxController,
+              onChanged: _filtrateTodoList,
+            ),
             Expanded(
               child: ListView.separated(
-                itemCount: todoList.length + 1, 
+                itemCount: _searchedTodoItems.length + 1, 
                 itemBuilder: (context, index) {
                   if (index == 0) {
                     return Container(
@@ -103,7 +131,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     );
                   }
                   return TodoItem(
-                    todo: todoList[index - 1], // index 0은 모든 할 일 텍스트이므로 -1
+                    todo: _searchedTodoItems[index - 1], // index 0은 모든 할 일 텍스트이므로 -1
                     onCheckedTodo: _handleCheckTodoItem,
                     onDeleteTodo: _deleteTodoItem,
                   );
@@ -130,7 +158,13 @@ class _HomeScreenState extends State<HomeScreen> {
 }
 
 class _TodoSearchBox extends StatelessWidget {
-  const _TodoSearchBox({super.key});
+  final TextEditingController controller;
+  final Function(String) onChanged;
+
+  const _TodoSearchBox({
+    required this.controller,
+    required this.onChanged,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -141,20 +175,22 @@ class _TodoSearchBox extends StatelessWidget {
         borderRadius: BorderRadius.circular(30),
         color: Colors.white,
       ),
-      child: const Row(
+      child: Row(
         children: [
-          Icon(
+          const Icon(
             Icons.search,
             color: TodoColors.black,
             size: 28,
           ),
           Expanded(
               child: Padding(
-            padding: EdgeInsets.only(
+            padding: const EdgeInsets.only(
               left: 10,
             ),
             child: TextField(
-              decoration: InputDecoration(
+              controller: controller,
+              onChanged: onChanged,
+              decoration: const InputDecoration(
                 border: InputBorder.none,
                 hintText: '할일검색',
                 hintStyle: TextStyle(
