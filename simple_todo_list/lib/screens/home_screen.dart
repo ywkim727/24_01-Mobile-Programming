@@ -1,3 +1,5 @@
+// import 'dart:js_interop';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
@@ -16,6 +18,8 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   List<Todo> todoList = Todo.createDummyTodoList();
 
+  final _todoAddBoxController = TextEditingController();
+
   void _handleCheckTodoItem(Todo todo) {
     setState(() {
       todo.isDone = !todo.isDone;
@@ -31,6 +35,22 @@ class _HomeScreenState extends State<HomeScreen> {
         }
       }
     });
+  }
+
+  void _addTodoItem (String todoContent) {
+    if (todoContent.trim().isEmpty) { // 빈칸 입력 시 추가하지 않음
+      return;
+    }
+    setState(() {
+      todoList.insert(  // 리스트 맨 앞에 추가
+        0,
+        Todo(
+          id: DateTime.now().toString(),
+          todoContent: todoContent,
+        )
+      );
+    });
+    _todoAddBoxController.clear();  // 입력 후 텍스트 필드 초기화
   }
 
   @override
@@ -98,7 +118,10 @@ class _HomeScreenState extends State<HomeScreen> {
                 },
               ),
             ),
-            const _TodoAddBox(),
+            _TodoAddBox(
+              controller: _todoAddBoxController,
+              onSubmitted: _addTodoItem,
+            ),
           ],
         ),
       ),
@@ -149,7 +172,13 @@ class _TodoSearchBox extends StatelessWidget {
 }
 
 class _TodoAddBox extends StatelessWidget {
-  const _TodoAddBox({super.key});
+  final TextEditingController controller;
+  final Function(String) onSubmitted;
+
+  const _TodoAddBox({
+    required this.controller,
+    required this.onSubmitted,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -160,20 +189,25 @@ class _TodoAddBox extends StatelessWidget {
         borderRadius: BorderRadius.circular(5),
         color: Colors.white,
       ),
-      child: const Row(
+      child: Row(
         children: [
-          Icon(
+          const Icon(
             Icons.add_rounded,
             color: TodoColors.black,
             size: 28,
           ),
           Expanded(
               child: Padding(
-            padding: EdgeInsets.only(
+            padding: const EdgeInsets.only(
               left: 10,
             ),
             child: TextField(
-              decoration: InputDecoration(
+              controller: controller,
+              onSubmitted: onSubmitted,
+              onTapOutside: (_) {
+                controller.clear();
+              },
+              decoration: const InputDecoration(
                 border: InputBorder.none,
                 hintText: '할 일 추가',
                 hintStyle: TextStyle(
