@@ -6,6 +6,7 @@ import 'package:flutter/widgets.dart';
 import 'package:simple_todo_list/components/todo_item.dart';
 import 'package:simple_todo_list/constants/todo_colors.dart';
 import 'package:simple_todo_list/models/todo_model.dart';
+import 'package:simple_todo_list/screens/todo_modify_dialog.dart';
 
 class HomeScreen extends StatefulWidget {
 
@@ -78,6 +79,15 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
+  void _showModifyPopup(Todo todo) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return const TodoModifyDialog();
+      }, 
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -134,6 +144,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     todo: _searchedTodoItems[index - 1], // index 0은 모든 할 일 텍스트이므로 -1
                     onCheckedTodo: _handleCheckTodoItem,
                     onDeleteTodo: _deleteTodoItem,
+                    onModifyTodo: _showModifyPopup,
                   );
                 },
                 separatorBuilder: (context, index) {  //아이템 사이 간격 추가
