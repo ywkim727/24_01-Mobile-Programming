@@ -17,7 +17,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  List<Todo> todoList = Todo.createDummyTodoList();
+  List<Todo> todoList = [];
 
   final _todoAddBoxController = TextEditingController();
   final _todoSearchBoxController = TextEditingController();
@@ -83,9 +83,19 @@ class _HomeScreenState extends State<HomeScreen> {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return const TodoModifyDialog();
+        return TodoModifyDialog(
+          todo: todo,
+          onModifiedTodo: _modifyTodoItem,
+        );
       }, 
     );
+  }
+
+  void _modifyTodoItem(String modifiedTodoContent, Todo todo) {
+    setState(() {
+      todo.todoContent = modifiedTodoContent;
+    });
+    Navigator.pop(context);
   }
 
   @override
