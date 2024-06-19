@@ -3,9 +3,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
+import 'package:simple_todo_list/components/drawer_menu_button.dart';
 import 'package:simple_todo_list/components/todo_item.dart';
 import 'package:simple_todo_list/constants/todo_colors.dart';
 import 'package:simple_todo_list/models/todo_model.dart';
+import 'package:simple_todo_list/screens/drawer_screen.dart';
 import 'package:simple_todo_list/screens/todo_modify_dialog.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -102,12 +104,12 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: TodoColors.background,
+      drawer: const DrawerScreen(),
       appBar: AppBar(
+        elevation: 0,
         backgroundColor: TodoColors.background,
-        leading: Icon(
-          Icons.menu,
-          color: TodoColors.black,
-          size: 30,
+        leading: const DrawerMenuButton(
+          
         ),
         title: const Text('Todo List'),
         actions: const [
@@ -121,10 +123,7 @@ class _HomeScreenState extends State<HomeScreen> {
           )
         ],
       ),
-      body: Padding(
-        padding: EdgeInsets.symmetric(
-          horizontal: 13,
-        ),
+      body: SafeArea(
         child: Column(
           children: [
             _TodoSearchBox(

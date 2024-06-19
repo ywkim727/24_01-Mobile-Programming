@@ -16,10 +16,11 @@ class MyApp extends StatelessWidget {
     SystemChrome.setSystemUIOverlayStyle(
       const SystemUiOverlayStyle(
         statusBarColor: Colors.transparent,
-        systemNavigationBarColor: TodoColors.background,
-        statusBarIconBrightness: Brightness.dark,
+        systemNavigationBarColor: Colors.transparent,
+        // statusBarIconBrightness: Brightness.dark,
       )
     );
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
     return GestureDetector(
       onTap: () {
         FocusManager.instance.primaryFocus?.unfocus();
