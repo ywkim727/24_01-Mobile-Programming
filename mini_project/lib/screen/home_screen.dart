@@ -1,9 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:mini_project/screen/result_screen.dart';
 
 class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
+  HomeScreen({super.key});
+  final TextEditingController _controller = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -12,25 +14,25 @@ class HomeScreen extends StatelessWidget {
       body: Column(
         children: [
           //로고
-          Expanded(
+          const Expanded(
             child: logo(),
           ),
           //설명
-          Expanded(
+          const Expanded(
             child: guide(),
           ),
           //이미지
-          Expanded(
+          const Expanded(
             child: image(),
           ),
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
           //입력칸
           Expanded(
-            child: input(),
+            child: input(_controller),
           ),
           //버튼
           Expanded(
-            child: button(),
+            child: button(context, _controller),
           )
 
         ],
@@ -57,8 +59,8 @@ class logo extends StatelessWidget {
                     )
                   ]
                 ),
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
+                child: const Padding(
+                  padding: EdgeInsets.all(8.0),
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
@@ -115,7 +117,11 @@ class image extends StatelessWidget {
 }
 
 class input extends StatelessWidget {
-  const input({super.key});
+  final TextEditingController controller;
+  const input(
+    this.controller,{
+    super.key
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -125,7 +131,8 @@ class input extends StatelessWidget {
                 child: Container(
                   width: 250,  // TextField의 최대 너비 설정
                   child: TextField(
-                    decoration: InputDecoration(
+                    controller: controller,
+                    decoration: const InputDecoration(
                       border: OutlineInputBorder(),
                       labelText: 'OOO 되는 법/하는 법 입력!',
                     ),
@@ -137,19 +144,26 @@ class input extends StatelessWidget {
 }
 
 class button extends StatelessWidget {
-  const button({super.key});
+  final BuildContext context;
+  final TextEditingController controller;
+  const button(this.context, this.controller, {super.key});
 
   @override
   Widget build(BuildContext context) {
     return Center(
-              child: ElevatedButton(
-                onPressed: (){},
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.green,
-                  foregroundColor: Colors.white,
-                ),
-                child: Text('물어보기!'),
-              ),
-            );
+      child: ElevatedButton(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => SecondScreen(query: controller.text)),
+          );
+        },
+        style: ElevatedButton.styleFrom(
+          backgroundColor: Colors.green,
+          foregroundColor: Colors.white,
+        ),
+        child: Text('물어보기!'),
+      ),
+    );
   }
 }
